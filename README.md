@@ -2,6 +2,8 @@
 
 An Expo and React Native journaling prototype that turns a private reflection into a structured, supportive response. The project explores mobile interaction design, voice input, server-mediated AI, rate limiting, crisis-aware presentation, and local export.
 
+> Portfolio note: this is an exploratory software prototype, not a clinical product or a deployed mental-health service.
+
 ## Portfolio highlights
 
 - Typed React Native navigation and multi-screen workflow
@@ -51,3 +53,5 @@ Witnessed is a reflective journaling aid—not therapy, diagnosis, crisis respon
 ## Repository hygiene
 
 No journal entries, API credentials, Redis credentials, deployment tokens, build artifacts, or signing files are included. The repository uses synthetic examples only.
+
+The public repository starts with this sanitized portfolio edition; earlier experimental history was intentionally not imported.
