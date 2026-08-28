@@ -1,0 +1,14 @@
+[build]
+  functions = "netlify/functions"
+  publish = "web-build"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@upstash/redis"]
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Access-Control-Allow-Methods = "POST, OPTIONS"
+    Access-Control-Allow-Headers = "Content-Type, X-Device-ID"

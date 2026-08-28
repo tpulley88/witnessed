@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "name": "Witnessed",
+    "slug": "witnessed",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#F5F2EE"
+    },
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.mttmventures.witnessed"
+    },
+    "android": {
+      "package": "com.mttmventures.witnessed"
+    },
+    "web": {
+      "bundler": "metro"
+    },
+    "plugins": [
+      "expo-font"
+    ]
+  }
+}
