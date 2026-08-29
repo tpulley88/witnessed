@@ -226,10 +226,10 @@ export default function JournalScreen({ navigation }: JournalScreenProps) {
 
   // Switch to text mode after recording stops
   useEffect(() => {
-    if (!speech.isRecording && inputMode === 'voice' && speech.transcript) {
+    if (!speech.isListening && inputMode === 'voice' && speech.transcript) {
       // Keep voice mode visually until user switches manually
     }
-  }, [speech.isRecording, inputMode, speech.transcript]);
+  }, [speech.isListening, inputMode, speech.transcript]);
 
   const wordCount = countWords(entryText);
   const hasContent = entryText.trim().length > 0;
@@ -239,17 +239,17 @@ export default function JournalScreen({ navigation }: JournalScreenProps) {
   const handleToggleVoice = useCallback(async () => {
     if (inputMode === 'text') {
       setInputMode('voice');
-      speech.clearTranscript();
-      await speech.startRecording();
+      speech.resetTranscript();
+      await speech.startListening();
     } else {
       // Already in voice mode — stop recording
-      await speech.stopRecording();
+      await speech.stopListening();
       setInputMode('text');
     }
   }, [inputMode, speech]);
 
   const handleStopRecording = useCallback(async () => {
-    await speech.stopRecording();
+    await speech.stopListening();
     setInputMode('text');
   }, [speech]);
 
@@ -406,7 +406,7 @@ export default function JournalScreen({ navigation }: JournalScreenProps) {
               ]}
               onPress={() => {
                 if (inputMode === 'voice') {
-                  speech.stopRecording();
+                  speech.stopListening();
                   setInputMode('text');
                 }
               }}
@@ -450,7 +450,7 @@ export default function JournalScreen({ navigation }: JournalScreenProps) {
           {/* Voice recording UI */}
           {inputMode === 'voice' && (
             <View style={styles.recordingContainer}>
-              {speech.isRecording ? (
+              {speech.isListening ? (
                 <>
                   <PulsingCircle />
                   <TouchableOpacity

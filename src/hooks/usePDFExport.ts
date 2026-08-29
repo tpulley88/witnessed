@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Platform } from 'react-native';
 import { AIResponse, JournalEntry } from '../types';
 
@@ -109,30 +109,42 @@ interface UsePDFExportResult {
   exportAsPDF: (response: AIResponse, entry: JournalEntry) => Promise<void>;
   exportAsText: (response: AIResponse, entry: JournalEntry) => Promise<void>;
   isAvailable: boolean;
+  isExporting: boolean;
 }
 
 export function usePDFExport(): UsePDFExportResult {
   const isAvailable = Print !== null && Sharing !== null;
+  const [isExporting, setIsExporting] = useState(false);
 
   const exportAsPDF = useCallback(async (response: AIResponse, entry: JournalEntry) => {
     if (!Print || !Sharing) return;
-    const html = buildHTML(response, entry);
-    const { uri } = await Print.printToFileAsync({ html });
-    if (await Sharing.isAvailableAsync()) {
-      await Sharing.shareAsync(uri, { mimeType: 'application/pdf', dialogTitle: 'Save your reflection' });
+    setIsExporting(true);
+    try {
+      const html = buildHTML(response, entry);
+      const { uri } = await Print.printToFileAsync({ html });
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(uri, { mimeType: 'application/pdf', dialogTitle: 'Save your reflection' });
+      }
+    } finally {
+      setIsExporting(false);
     }
   }, []);
 
   const exportAsText = useCallback(async (response: AIResponse, entry: JournalEntry) => {
     if (!Sharing) return;
-    const FileSystem = require('expo-file-system');
-    const text = buildPlainText(response, entry);
-    const fileUri = FileSystem.documentDirectory + 'witnessed-reflection.txt';
-    await FileSystem.writeAsStringAsync(fileUri, text, { encoding: FileSystem.EncodingType.UTF8 });
-    if (await Sharing.isAvailableAsync()) {
-      await Sharing.shareAsync(fileUri, { mimeType: 'text/plain', dialogTitle: 'Save your reflection' });
+    setIsExporting(true);
+    try {
+      const FileSystem = require('expo-file-system');
+      const text = buildPlainText(response, entry);
+      const fileUri = FileSystem.documentDirectory + 'witnessed-reflection.txt';
+      await FileSystem.writeAsStringAsync(fileUri, text, { encoding: FileSystem.EncodingType.UTF8 });
+      if (await Sharing.isAvailableAsync()) {
+        await Sharing.shareAsync(fileUri, { mimeType: 'text/plain', dialogTitle: 'Save your reflection' });
+      }
+    } finally {
+      setIsExporting(false);
     }
   }, []);
 
-  return { exportAsPDF, exportAsText, isAvailable };
+  return { exportAsPDF, exportAsText, isAvailable, isExporting };
 }
