@@ -33,7 +33,9 @@ npm install
 npm start
 ```
 
-The included EAS identifiers are placeholders; configure a separate Expo project before building distributable binaries.
+This Expo 51 project uses a native speech-recognition module, so device testing requires a development build rather than the standard Expo Go client. The included EAS identifiers are placeholders; configure a separate Expo project before building distributable binaries.
+
+The dependency tree passes Expo Doctor and the Android JavaScript bundle exports successfully. Expo 51 is a historical, unsupported SDK and its tooling reports dependency advisories; migrate to a current Expo SDK before production use or accepting untrusted build inputs.
 
 ## Privacy and safety boundaries
 
