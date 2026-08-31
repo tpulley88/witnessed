@@ -28,6 +28,8 @@ An Expo and React Native journaling prototype that turns a private reflection in
 
 Install dependencies and copy `.env.example` to a local `.env`. Only `EXPO_PUBLIC_API_URL` is intended for the mobile bundle. Provider and Redis credentials belong in the Netlify deployment environment and must never use the `EXPO_PUBLIC_` prefix.
 
+If `EXPO_PUBLIC_API_URL` is omitted, the app automatically uses a clearly limited, deterministic portfolio-demo response generator. This lets reviewers exercise the complete journaling flow without accounts, credentials, or transmission of journal text. The demo includes a conservative crisis-keyword path but is not a safety or clinical system.
+
 ```text
 npm install
 npm start
